@@ -1,29 +1,102 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My first experiment</title>
+    <title> My first experiment!</title>
     <script src="https://unpkg.com/jspsych@8.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
     <link href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.3"></script>
+    <script src="jspsych/modified-image-plugin.js"></script>
+    <script src = "all_sentences.js"></script>
+    <script src = "association.js"></script>
+    <script src = "priming.js"></script>
+
   </head>
   <body>
-    <hl1> My first experiment using jsPsych!</hl1>
   </body>
   <script>
-    const jsPsych = initJsPsych();
+    var jsPsych = initJsPsych();
 
-    const hello_trial = {
-      type: jsPsychHtmlKeyboardResponse,
-      stimulus: 'Hello world!',
-      choices: ['Y','N']
+    var sentence = {
+        type:jsPsychHtmlKeyboardResponse,
+        stimulus: jsPsych.timelineVariable('sentence'),
+        choices: [' '],
+        trial_duration: 10
+    };
+
+    var attention = {
+        type: jsPsychSurveyText,
+        questions: [{prompt: "Type any ONE novel word from the previous sentence:"}],
+    };
+
+    var association = {
+        type: jsPsychSurveyText,
+        questions: [
+            {prompt: jsPsych.timelineVariable('cue')}
+        ],
+    };
+
+    var fixation = {
+        type:jsPsychHtmlKeyboardResponse,
+        stimulus: '+',
+        choices: ['NO_KEYS'],
+        trial_duration: 500
+    };
+
+    var image = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: jsPsych.timelineVariable('image_path'),
+        choices: ['NO_KEYS'],
+        trial_duration: 500,
+        stimulus_width: 500,
+        maintain_aspect_ratio: true,
+        prompt: "<span style = 'font-size:200%'><br><br></span>"
+    };
+
+    var prime = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: jsPsych.timelineVariable('image_path'),
+        choices: ['NO_KEYS'],
+        trial_duration: 500,
+        stimulus_width: 500,
+        maintain_aspect_ratio: true,
+        prompt: jsPsych.timelineVariable('prime_word')
+    };
+
+    var target = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: jsPsych.timelineVariable('image_path'),
+        choices: ['A','L'],
+        stimulus_width: 500,
+        maintain_aspect_ratio: true,
+        prompt: jsPsych.timelineVariable('target_word')
+    };
+
+    var training_procedure = {
+        timeline: [sentence],
+        timeline_variables: list_of_sentences,
+        randomize_order: true
+    };
+
+    var association_procedure= {
+        timeline: [association],
+        timeline_variables: association_cues,
+        randomize_order: true,
+        repetitions: 3
+    };
+
+    var training_plus_association = {
+        timeline: [training_procedure, association_procedure],
+        repetitions: 3
     }
 
-    const hello_trial2 = {
-      type: jsPsychHtmlKeyboardResponse,
-      stimulus: ':)',
-      choices: ['Y','N'],
-      trial_duration: 1000
+    var priming_procedure = {
+        timeline: [fixation, image, prime, target],
+        timeline_variables: practice_stimuli,
+        randomize_order: true
     }
-    jsPsych.run([hello_trial, hello_trial2]);
+
+    jsPsych.run([association_procedure]);
+
   </script>
 </html>
