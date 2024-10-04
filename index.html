@@ -21,7 +21,7 @@
 
     {
         on_finish: function(data) {
-            jsPsych.data.displayData();
+            //jsPsych.data.displayData();
         }
     } 
 );
@@ -53,7 +53,6 @@ var preload = {
         type:jsPsychHtmlKeyboardResponse,
         stimulus: jsPsych.timelineVariable('sentence'),
         choices: [' '],
-        trial_duration: 100,
         on_finish: function(data) {
             sentence_number = (sentence_number + 1) % 40;
             console.log("sentence_number= " + sentence_number);
@@ -116,6 +115,7 @@ var preload = {
 
     var association = {
         type: jsPsychSurveyText,
+        preamble: 'Type in the first word that comes to mind when you see the word below:',
         questions: [
             {prompt: jsPsych.timelineVariable('cue')}],
             trial_duration: 10,
@@ -132,7 +132,7 @@ var preload = {
         type:jsPsychHtmlKeyboardResponse,
         stimulus: '+',
         choices: ['NO_KEYS'],
-        trial_duration: 50,
+        trial_duration: 500,
         data: {
             typeoftrial: 'fixation',
         }
@@ -142,8 +142,8 @@ var preload = {
         type: jsPsychImageKeyboardResponse,
         stimulus: jsPsych.timelineVariable('image_path'),
         choices: ['NO_KEYS'],
-        trial_duration: 50,
-        stimulus_width: 50,
+        trial_duration: 500,
+        stimulus_width: 500,
         maintain_aspect_ratio: true,
         prompt: "<span style = 'font-size:200%'><br><br></span>",
         data: {
@@ -155,8 +155,8 @@ var preload = {
         type: jsPsychImageKeyboardResponse,
         stimulus: jsPsych.timelineVariable('image_path'),
         choices: ['NO_KEYS'],
-        trial_duration: 50,
-        stimulus_width: 50,
+        trial_duration: 300,
+        stimulus_width: 500,
         maintain_aspect_ratio: true,
         prompt: function(){
             return "<span style= 'font-size:200%'><br>" + String(jsPsych.timelineVariable('prime_word')) + "<br></span";},
@@ -212,7 +212,7 @@ var preload = {
     var association_instructions = {
         type: jsPsychInstructions,
         pages: [
-            'Done with sentences. Association time.',
+            'You are done with the first part! <br><br>In this segment, you will be asked to type in the first word that comes to your mind when you hear or read a given word. <br><br>Keep in mind that in this game, you can only use the words you read about in the reading session. <br><br>Type in your answer and press enter when you are ready for the next one.',
          ],
          show_clickable_nav: true
     };
@@ -246,9 +246,9 @@ var preload = {
     var initial_instructions = {
         type: jsPsychInstructions,
         pages: [
-            'Welcome to the experiment. Click next to begin.',
-            'This is the second page of instructions.',
-            'This is the final page.'
+    'How do we learn new words? <br><br>Most of the words we know we learned spontaneously, like when hearing a novel word while listening to someone speaking, watching TV or while reading.<br><br> In this study, your task will be to simply read sentences containing new words. After the reading session, we will ask you to use these novel words in a word game. <br><br>This experiment has three blocks. Each block has reading and testing session.<br><br> Are you ready to start?',
+    'We will present one sentence at a time. <br><br>Read them carefully. When you are ready, press space bar for the next sentence. <br><br>In order to make sure you are reading carefully, there will be surprise questions during the reading session. <br><br>You will be asked to type in the novel words from the last sentence you read. <br><br>Minor spelling mistakes will be tolerated. Type in your answer and press enter when you are ready to move on to the next sentence.',
+    'You will now read the sentences. <br> Press SPACEBAR when you have read the sentence and want to move on to the next.'
          ],
          show_clickable_nav: true,
          data: {
@@ -259,7 +259,8 @@ var preload = {
     var priming_instructions = {
         type: jsPsychInstructions,
         pages: [
-            'Priming task is about to begin.'
+            'This is our final game. <br><br>You will be presented with slides showing an apple and a horse. <br><br>Your task will be to respond as quickly as possible, on which side of the screen the apple or the horse is shown. <br><br>On the same screen, with pictures, two words will be presented. Read the first word, but respond in accordance with the second word. <br><br>For example, if you see words “boff” and “apple”, respond where the apple is. <br><br>If you see words “boff” and “horse”, respond where the horse is.',
+'You will press A if you want to choose the picture on the left and <br><br> L if you want to choose the picture on the right'
          ],
          show_clickable_nav: true,
          data: {
